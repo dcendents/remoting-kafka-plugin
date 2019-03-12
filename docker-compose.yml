@@ -124,6 +124,19 @@ services:
         volumes:
             - /var/run/docker.sock:/var/run/docker.sock
 
+    cp-kafka-rest-no-auth:
+        image: confluentinc/cp-kafka-rest:5.1.2
+        ports:
+            - "8082:8082"
+        hostname: rest-proxy
+        container_name: rest-proxy
+        depends_on:
+            - zoo2
+        environment:
+            KAFKA_REST_HOST_NAME: rest-proxy
+            KAFKA_REST_LISTENERS: "http://0.0.0.0:8082"
+            KAFKA_REST_ZOOKEEPER_CONNECT: zoo2:2181
+
     agent-no-auth:
         image: jenkins/remoting-kafka-agent:latest
         command: >
